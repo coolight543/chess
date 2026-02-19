@@ -53,7 +53,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private int currX;
     private int currY;
     
-
+//something
     
     public Board(GameWindow g) {
         this.g = g;

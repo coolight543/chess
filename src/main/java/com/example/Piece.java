@@ -14,6 +14,9 @@ import javax.imageio.ImageIO;
 public class Piece {
     private final boolean color;
     private BufferedImage img;
+    private boolean isQueen = true;
+    private int pieceTaken = 0;
+    private boolean isBlocked = false; 
     
     public Piece(boolean isWhite, String img_file) {
         this.color = isWhite;
@@ -60,12 +63,13 @@ public class Piece {
     //returns an arraylist of squares which are legal to move to
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
-    public ArrayList<Square> getLegalMoves(Board b, Square start){
-        if (start.getCol()<7)
+    public ArrayList<Square> getLegalMoves(Board b, Square start)
+    {
+        Square right = b.getSquareArray()[start.getRow()][start.getCol()];
+        if (start.getCol() < 7)
         {
-            Square right = b.getSquareArray()[start.getRow()][start.getCol()];
-    
-        right.getOccupyingPiece().getColor();
+            right.getOccupyingPiece().getColor(); 
+        }
         if (right.isOccupied() && right.getOccupyingPiece().getColor() != this.color) {
         
             // This is a legal move because it's occupied by an opponent's piece
@@ -73,8 +77,69 @@ public class Piece {
             legalMoves.add(right);
             return legalMoves;
         }
+        
+        //Queen movements
+        if (isQueen)
+        {
+            if (pieceTaken > 3)
+            {
+                isQueen = false; 
+            }
+            for (int i = start.getRow(); i < 8 && i >=0; i++)
+            {
+                for (int j = start.getCol(); j < 8 && j >=0; j++)
+                {
+                //if queen saw the same color, it can't move past its own piece
+                if (this.color)
+                {
+                    break;
+                }
+                //if queen saw the opponent color, it can take the piece, but could not move pass
+                if (!this.color && /*something.get != null */)
+                {
+                    pieceTaken++;
+                    break;
+                }
+                //legalmoves.add(b.getSquareArray()[i][j])
+                }
+            
+            }
+        }
+        //pawn movements
+        else 
+        {
+            if (isBlocked)
+            {
+                break;
+            }
+            if (start.getRow() == 0)
+            {
+                isQueen = true; 
+                pieceTaken = 0; 
+            }
+
+        }
+
        
     }
+}
+    
+    
+    
+        
+//--ddeadend
+    // isQueen - is it still a queen
+    // if isQueen - queen moves
+    // if isNotQueen - pawn moves
+    // eat - count++
+    // move - pieceTaken 3 - check every time after move
+    // 3- false
+    // pawn to end - isQueen
+
+/* 
+
+
+
         //track how many times the queen has taken a piece, and if it's taken 3 pieces, it can move like a pawn for the rest of the game.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -110,7 +175,7 @@ public boolean queenHasTaken3Pieces() {
 public boolean isLegalPawnMove(Square start, int row, int col) {
     // Implement logic to check if moving to (row, col) is a legal pawn move from the start square
     // This could involve checking if the move is one square forward (depending on the color of the piece) and if the target square is not occupied by a piece of the same color
-    while(b.getRow() > 0) {
+    while(start.getRow() > 0) {
         if (this.color) { // If the piece is white
             if (row == start.getRow() - 1 && col == start.getCol() && !b.getSquareArray()[row][col].isOccupied()) {
                 return true; // Legal move for white pawn
@@ -125,3 +190,6 @@ public boolean isLegalPawnMove(Square start, int row, int col) {
 
     }  
 }
+
+
+ */

@@ -65,17 +65,83 @@ public class Piece {
     //going to score any points.
     public ArrayList<Square> getLegalMoves(Board b, Square start)
     {
-        Square right = b.getSquareArray()[start.getRow()][start.getCol()];
+        ArrayList<Square> moves = new ArrayList<>();
         if (start.getCol() < 7)
         {
-            right.getOccupyingPiece().getColor(); 
+            Square right = b.getSquareArray()[start.getRow()][start.getCol()+1];
+            moves.add(right);
         }
-        if (right.isOccupied() && right.getOccupyingPiece().getColor() != this.color) {
+        //check right
+        for (int i = 1; i+start.getCol() <= 7; i++)
+        {
+            Square rights = b.getSquareArray()[start.getRow()][start.getCol()+i];
+            if (rights.isOccupied())
+            {
+                if (this.color != rights.getOccupyingPiece().getColor())
+                {
+                    moves.add(rights);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(rights);
+
+        }
+        //check left
+        for (int i = 1; start.getCol()-i >= 0 ; i++)
+        {
+            moves.add(b.getSquareArray()[start.getRow()][start.getCol()-i]);
+        }
+        //check down
+        for (int i = 1; start.getRow()+i <= 7; i++)
+        {
+            moves.add(b.getSquareArray()[start.getRow()+i][start.getCol()]);
+        }
+        //check up
+        for (int i = 1; start.getRow()-i >= 0; i++)
+        {
+            moves.add(b.getSquareArray()[start.getRow()-i][start.getCol()]);
+        }
+        //check upright
+        for (int i = 1; start.getRow()-i >= 0 && start.getCol()+i <=7; i++)
+        {
+            moves.add(b.getSquareArray()[start.getRow()-i][start.getCol()+i]);
+        }
+
+        
+        return moves;
+
+    }
+}
+    
+        /* 
+        ArrayList <Square> moves = new ArrayList<>();
+        //Squares to the right
+        Square right = b.getSquareArray()[start.getRow()][start.getCol()+1];
+        if (start.getCol () < 7 && (!right.isOccupied() || right.getOccupyingPiece().getColor() != this.color)) {
         
             // This is a legal move because it's occupied by an opponent's piece
-            ArrayList<Square> legalMoves = new ArrayList<>();
-            legalMoves.add(right);
-            return legalMoves;
+            moves.add(right);
+        }
+        if(start.getCol()-1>=0){
+            Square left = b.getSquareArray()[start.getRow()][start.getCol()-1];
+            if (start.getCol() < 7 && (!left.isOccupied() || left.getOccupyingPiece().getColor() != this.color))
+            {
+                moves.add(left);
+            }
+        }
+        Square down = b.getSquareArray()[start.getRow()+1][start.getCol()];
+        if (start.getRow() < 7 && (!down.isOccupied() || down.getOccupyingPiece().getColor() != this.color))
+        {
+            moves.add(down);
+        }
+        Square up = b.getSquareArray()[start.getRow()-1][start.getCol()];
+        if (start.getRow() < 7 && (!up.isOccupied() || up.getOccupyingPiece().getColor() != this.color))
+        {
+            moves.add(up);
         }
         
         //Queen movements
@@ -95,36 +161,30 @@ public class Piece {
                     break;
                 }
                 //if queen saw the opponent color, it can take the piece, but could not move pass
-                if (!this.color && /*something.get != null */)
-                {
-                    pieceTaken++;
-                    break;
-                }
+                //if (!this.color  /* && something.get != null */
+                
+                //    pieceTaken++;
+              //     break;
+          //      }
                 //legalmoves.add(b.getSquareArray()[i][j])
-                }
+          //     }  
             
-            }
-        }
+        //    }
+       // }
         //pawn movements
-        else 
-        {
-            if (isBlocked)
-            {
-                break;
-            }
-            if (start.getRow() == 0)
-            {
-                isQueen = true; 
-                pieceTaken = 0; 
-            }
+       // else 
+//         {
+//             if (!isBlocked && start.getRow() == 0)
+//             {
+//                 isQueen = true; 
+//                 pieceTaken = 0; 
+//             }
 
-        }
-
+//         }
+//         return moves; 
        
-    }
-}
-    
-    
+//     }
+// }
     
         
 //--ddeadend

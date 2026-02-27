@@ -139,9 +139,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
      if (imageUrl != null) {
             // This is the cleanest way to get an AWT Image object from a URL
             backgroundImage = Toolkit.getDefaultToolkit().createImage(imageUrl);
-        } else {
-            System.err.println("Image resource not found. Check path: /src/main/java/com/example/Pictures/");
-        }
+        } 
     
 
         for (int x = 0; x < 8; x++) {
@@ -150,7 +148,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 if(sq == fromMoveSquare)
                 	 sq.setBorder(BorderFactory.createLineBorder(Color.blue));
                 sq.paintComponent(g);
-                System.out.println("Painting square at " + x + ", " + y);   
+             //   System.out.println("Painting square at " + x + ", " + y);   
                 
             }
         }
@@ -173,6 +171,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         if (sq.isOccupied()) {
             currPiece = sq.getOccupyingPiece();
             fromMoveSquare = sq;
+            for (Square s : currPiece.getLegalMoves(this, fromMoveSquare))
+            {
+                s.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.ORANGE));
+            }
             if (currPiece.getColor() != whiteTurn)
                 return;
             sq.setDisplay(false);
@@ -186,11 +188,25 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     //moving the new piece to it's new board location. 
     @Override
     public void mouseReleased(MouseEvent e) {
+        for (Square [] row : board)
+        {
+            for (Square s : row)
+            {
+                s.setBorder(null);
+            }
+        }
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
         
         //using currPiece
+        if (fromMoveSquare != null)
+        {
+            if (currPiece != null && currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare))
+            {
+                endSquare.put(currPiece);
+                fromMoveSquare.removePiece();
+            }
+        }
         
-       
         fromMoveSquare.setDisplay(true);
         currPiece = null;
         repaint();

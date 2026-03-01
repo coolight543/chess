@@ -66,11 +66,6 @@ public class Piece {
     public ArrayList<Square> getLegalMoves(Board b, Square start)
     {
         ArrayList<Square> moves = new ArrayList<>();
-        if (start.getCol() < 7)
-        {
-            Square right = b.getSquareArray()[start.getRow()][start.getCol()+1];
-            moves.add(right);
-        }
         //check right
         for (int i = 1; i+start.getCol() <= 7; i++)
         {
@@ -93,56 +88,139 @@ public class Piece {
         //check left
         for (int i = 1; start.getCol()-i >= 0 ; i++)
         {
-            moves.add(b.getSquareArray()[start.getRow()][start.getCol()-i]);
+            Square left = b.getSquareArray()[start.getRow()][start.getCol()-i];
+            if (left.isOccupied())
+            {
+                if (this.color != left.getOccupyingPiece().getColor())
+                {
+                    moves.add(left);
+                }
+                else 
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(left);
         }
         //check down
         for (int i = 1; start.getRow()+i <= 7; i++)
         {
-            moves.add(b.getSquareArray()[start.getRow()+i][start.getCol()]);
+            Square down = b.getSquareArray()[start.getRow()+i][start.getCol()];
+            if (down.isOccupied())
+            {
+                if (this.color != down.getOccupyingPiece().getColor())
+                {
+                    moves.add(down);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(down);
         }
         //check up
         for (int i = 1; start.getRow()-i >= 0; i++)
         {
-            moves.add(b.getSquareArray()[start.getRow()-i][start.getCol()]);
+            Square up = b.getSquareArray()[start.getRow()-i][start.getCol()];
+            if (up.isOccupied())
+            {
+                if (this.color != up.getOccupyingPiece().getColor())
+                {
+                    moves.add(up);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(up);
         }
         //check upright
         for (int i = 1; start.getRow()-i >= 0 && start.getCol()+i <=7; i++)
         {
-            moves.add(b.getSquareArray()[start.getRow()-i][start.getCol()+i]);
+            Square upright = b.getSquareArray()[start.getRow()-i][start.getCol()+i];
+            if (upright.isOccupied())
+            {
+                if (this.color != upright.getOccupyingPiece().getColor())
+                {
+                    moves.add(upright);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(upright);
+        }
+        //check upleft
+        for (int i = 1; start.getRow()-i >= 0 && start.getCol()-i >= 0; i++)
+        {
+            Square upleft = b.getSquareArray()[start.getRow()-i][start.getCol()-i];
+            if (upleft.isOccupied())
+            {
+                if (this.color != upleft.getOccupyingPiece().getColor())
+                {
+                    moves.add(upleft);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(upleft);
+        }
+        //check downleft
+        for (int i = 1; start.getRow()+i <= 7 && start.getCol()-i >= 0; i++)
+        {
+            Square downleft = b.getSquareArray()[start.getRow()+i][start.getCol()-i];
+            if (downleft.isOccupied())
+            {
+                if (this.color != downleft.getOccupyingPiece().getColor())
+                {
+                    moves.add(downleft);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(downleft);
+        }
+        //check downright
+        for (int i = 1; start.getRow()+i <= 7 && start.getCol()-i <= 7; i++)
+        {
+            Square downright = b.getSquareArray()[start.getRow()+i][start.getCol()+i];
+            if (downright.isOccupied())
+            {
+                if (this.color != downright.getOccupyingPiece().getColor())
+                {
+                    moves.add(downright);
+                }
+                else
+                {
+                    break;
+                }
+                break;
+            }
+            moves.add(downright);
         }
 
         
         return moves;
 
     }
+
 }
-    
+//if the queen has taken over 3 pieces, then the queen turns into pawn
+
         /* 
-        ArrayList <Square> moves = new ArrayList<>();
-        //Squares to the right
-        Square right = b.getSquareArray()[start.getRow()][start.getCol()+1];
-        if (start.getCol () < 7 && (!right.isOccupied() || right.getOccupyingPiece().getColor() != this.color)) {
-        
-            // This is a legal move because it's occupied by an opponent's piece
-            moves.add(right);
-        }
-        if(start.getCol()-1>=0){
-            Square left = b.getSquareArray()[start.getRow()][start.getCol()-1];
-            if (start.getCol() < 7 && (!left.isOccupied() || left.getOccupyingPiece().getColor() != this.color))
-            {
-                moves.add(left);
-            }
-        }
-        Square down = b.getSquareArray()[start.getRow()+1][start.getCol()];
-        if (start.getRow() < 7 && (!down.isOccupied() || down.getOccupyingPiece().getColor() != this.color))
-        {
-            moves.add(down);
-        }
-        Square up = b.getSquareArray()[start.getRow()-1][start.getCol()];
-        if (start.getRow() < 7 && (!up.isOccupied() || up.getOccupyingPiece().getColor() != this.color))
-        {
-            moves.add(up);
-        }
         
         //Queen movements
         if (isQueen)

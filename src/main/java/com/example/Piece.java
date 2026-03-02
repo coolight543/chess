@@ -53,7 +53,9 @@ public class Piece {
     //return a list of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-     return null;
+        
+        return null;
+
     }
     
 
@@ -63,6 +65,8 @@ public class Piece {
     //returns an arraylist of squares which are legal to move to
     //please note that your piece must have some sort of logic. Just being able to move to every square on the board is not
     //going to score any points.
+
+    //precondition: the mouse is clicked on the piece, it would show all the possible squares that I can move 
     public ArrayList<Square> getLegalMoves(Board b, Square start)
     {
         ArrayList<Square> moves = new ArrayList<>();
@@ -81,7 +85,7 @@ public class Piece {
                     break;
                 }
                 break;
-            }
+            } 
             moves.add(rights);
 
         }
@@ -194,7 +198,7 @@ public class Piece {
             moves.add(downleft);
         }
         //check downright
-        for (int i = 1; start.getRow()+i <= 7 && start.getCol()-i <= 7; i++)
+        for (int i = 1; start.getRow()+i <= 7 && start.getCol()+i <=7; i++)
         {
             Square downright = b.getSquareArray()[start.getRow()+i][start.getCol()+i];
             if (downright.isOccupied())

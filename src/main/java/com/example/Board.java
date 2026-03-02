@@ -46,15 +46,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private boolean whiteTurn;
 
     //if the player is currently dragging a piece this variable contains it.
-    Piece currPiece;
+    private Piece currPiece;
     private Square fromMoveSquare;
     
     //used to keep track of the x/y coordinates of the mouse.
     private int currX;
     private int currY;
     
-//something
-    
+    //constructor
     public Board(GameWindow g) {
         this.g = g;
         board = new Square[8][8];
@@ -104,10 +103,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//set up the board such that the black pieces are on one side and the white pieces are on the other.
 	//since we only have one kind of piece for now you need only set the same number of pieces on either side.
 	//it's up to you how you wish to arrange your pieces.
+
+    //precondition: the indexes for squares, isWhite, and pieces' images are not null
+    //postcondition: the pieces are put in the designed square on the board
     void initializePieces() {
     	
-     board[0][3].put(new Piece(true, RESOURCES_WQUEEN_PNG));
-     board[7][4].put(new Piece(false, RESOURCES_BQUEEN_PNG));
+     board[7][3].put(new Piece(true, RESOURCES_WQUEEN_PNG));
+     board[0][4].put(new Piece(false, RESOURCES_BQUEEN_PNG));
+     board[6][6].put(new Piece(true, RESOURCES_WPAWN_PNG));
+     board[1][5].put(new Piece(false, RESOURCES_BPAWN_PNG));
         
 
     }
@@ -160,8 +164,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
     }
-
+    
     @Override
+    //precondition: the mouse is pressed
+    //postcondition: shows all the legal moves drawn in yellow borders
     public void mousePressed(MouseEvent e) {
         currX = e.getX();
         currY = e.getY();
@@ -186,7 +192,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
     //moving the new piece to it's new board location. 
+
     @Override
+    //precondition: a piece has moved to another square that is not null, and it's the correct color pieces' turn
+    //postcondition: if the move is legal, it moves; else, the piece go back to original location
     public void mouseReleased(MouseEvent e) {
         for (Square [] row : board)
         {
@@ -200,10 +209,16 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         //using currPiece
         if (fromMoveSquare != null)
         {
-            if (currPiece != null && currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare))
+            if (currPiece != null && currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare) && currPiece.getColor() == whiteTurn)
             {
+                
+                if(endSquare.removePiece()!=null)
+                {
+                    currPiece.getPiecesTaken();
+                }
                 endSquare.put(currPiece);
                 fromMoveSquare.removePiece();
+                whiteTurn = !whiteTurn;
             }
         }
         

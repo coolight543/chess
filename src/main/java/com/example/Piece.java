@@ -14,13 +14,12 @@ import javax.imageio.ImageIO;
 public class Piece {
     private final boolean color;
     private BufferedImage img;
-    private boolean isQueen = true;
-    private int pieceTaken = 0;
-    private boolean isBlocked = false; 
+
+    private int pieceTaken;
     
     public Piece(boolean isWhite, String img_file) {
         this.color = isWhite;
-         
+        pieceTaken = 0; 
         try {
             if (this.img == null) {
                 this.img = ImageIO.read(new File(System.getProperty("user.dir")+img_file));
@@ -50,12 +49,104 @@ public class Piece {
     
     
     // TO BE IMPLEMENTED!
-    //return a list of every square that is "controlled" by this piece. A square is controlled
+    //precondition: a piece is clicked and it's not null
+    //postcondition: return an arraylist of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
-    public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-        
-        return null;
 
+    public ArrayList<Square> getControlledSquares(Board b, Square start) {
+        ArrayList<Square> moves = new ArrayList<>();
+        //check right
+        for (int i = 1; i+start.getCol() <= 7; i++)
+        {
+            Square rights = b.getSquareArray()[start.getRow()][start.getCol()+i];
+            if (rights.isOccupied())
+            {
+                    moves.add(rights);
+                    break;
+            }
+            moves.add(rights);
+
+        }
+        //check left
+        for (int i = 1; start.getCol()-i >= 0 ; i++)
+        {
+            Square left = b.getSquareArray()[start.getRow()][start.getCol()-i];
+            if (left.isOccupied())
+            {
+                    moves.add(left);
+                    break;
+            }
+            moves.add(left);
+        }
+        //check down
+        for (int i = 1; start.getRow()+i <= 7; i++)
+        {
+            Square down = b.getSquareArray()[start.getRow()+i][start.getCol()];
+            if (down.isOccupied())
+            {
+                    moves.add(down);
+                    break;
+            }
+            moves.add(down);
+        }
+        //check up
+        for (int i = 1; start.getRow()-i >= 0; i++)
+        {
+            Square up = b.getSquareArray()[start.getRow()-i][start.getCol()];
+            if (up.isOccupied())
+            {
+                moves.add(up);
+                break;
+            }
+            moves.add(up);
+        }
+        //check upright
+        for (int i = 1; start.getRow()-i >= 0 && start.getCol()+i <=7; i++)
+        {
+            Square upright = b.getSquareArray()[start.getRow()-i][start.getCol()+i];
+            if (upright.isOccupied())
+            {
+                moves.add(upright);
+                break;
+            }
+            moves.add(upright);
+        }
+        //check upleft
+        for (int i = 1; start.getRow()-i >= 0 && start.getCol()-i >= 0; i++)
+        {
+            Square upleft = b.getSquareArray()[start.getRow()-i][start.getCol()-i];
+            if (upleft.isOccupied())
+            {
+                moves.add(upleft);
+                break;
+            }
+            moves.add(upleft);
+        }
+        //check downleft
+        for (int i = 1; start.getRow()+i <= 7 && start.getCol()-i >= 0; i++)
+        {
+            Square downleft = b.getSquareArray()[start.getRow()+i][start.getCol()-i];
+            if (downleft.isOccupied())
+            {
+                moves.add(downleft);
+                break;
+            }
+            moves.add(downleft);
+        }
+        //check downright
+        for (int i = 1; start.getRow()+i <= 7 && start.getCol()+i <=7; i++)
+        {
+            Square downright = b.getSquareArray()[start.getRow()+i][start.getCol()+i];
+            if (downright.isOccupied())
+            {
+                moves.add(downright);
+                break;
+            }
+            moves.add(downright);
+        }
+
+        
+        return moves;
     }
     
 
@@ -67,6 +158,7 @@ public class Piece {
     //going to score any points.
 
     //precondition: the mouse is clicked on the piece, it would show all the possible squares that I can move 
+    //postcondition: return an arraylist of squares which are legal to move to
     public ArrayList<Square> getLegalMoves(Board b, Square start)
     {
         ArrayList<Square> moves = new ArrayList<>();
@@ -220,9 +312,25 @@ public class Piece {
         return moves;
 
     }
+    //precondition: there are pieces on the board, and queen successfully captured another piece
+    //postcondition: return the number of pieces taken by the queen
+    public int getPiecesTaken()
+    {
+        
+        pieceTaken++;
+        
+        return pieceTaken; 
+    }
 
 }
+
+
+
+//Garbage code beyond this point ---------------------------------------------------------------
+
+
 //if the queen has taken over 3 pieces, then the queen turns into pawn
+
 
         /* 
         

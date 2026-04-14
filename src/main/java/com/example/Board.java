@@ -46,7 +46,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private boolean whiteTurn;
 
     //if the player is currently dragging a piece this variable contains it.
-    private Piece currPiece;
+    private MyCoolQueen currPiece;
     private Square fromMoveSquare;
     
     //used to keep track of the x/y coordinates of the mouse.
@@ -108,10 +108,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     //postcondition: the pieces are put in the designed square on the board
     void initializePieces() {
     	
-     board[7][3].put(new Piece(true, RESOURCES_WQUEEN_PNG));
-     board[0][4].put(new Piece(false, RESOURCES_BQUEEN_PNG));
-     board[6][6].put(new Piece(true, RESOURCES_WPAWN_PNG));
-     board[1][5].put(new Piece(false, RESOURCES_BPAWN_PNG));
+     board[7][3].put(new MyCoolQueen(true, RESOURCES_WQUEEN_PNG));
+     board[0][4].put(new MyCoolQueen(false, RESOURCES_BQUEEN_PNG));
+     board[6][6].put(new MyCoolQueen(true, RESOURCES_WPAWN_PNG));
+     board[1][5].put(new MyCoolQueen(false, RESOURCES_BPAWN_PNG));
         
 
     }
@@ -124,11 +124,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         return whiteTurn;
     }
 
-    public void setCurrPiece(Piece p) {
+    public void setCurrPiece(MyCoolQueen p) {
         this.currPiece = p;
     }
 
-    public Piece getCurrPiece() {
+    public MyCoolQueen getCurrPiece() {
         return this.currPiece;
     }
 

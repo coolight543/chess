@@ -22,11 +22,13 @@ public class Piece {
             System.out.println("File not found: " + e.getMessage());
         }
     }
-
+    //precondition: color is not null
+    //postcondition: returns white and black
     public boolean getColor() {
         return color;
     }
-
+    //precondition: image is not null
+    //postcondition: return image
     public Image getImage() {
         return img;
     }
@@ -43,6 +45,7 @@ public class Piece {
     }
 
     // make sure to override this!
+    @Override
     public String toString() {
         if (color)
             return "white";

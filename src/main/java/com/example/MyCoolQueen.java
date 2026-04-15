@@ -9,7 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-
+//Kuang Miao
+//MyCoolQueen
+//Currently, it'll move like a queen; in the future, it'll move like a queen, and after killing 3 times, it'll turn into a pawn
 //you will need to implement two functions in this file.
 public class MyCoolQueen extends Piece {
    
@@ -18,6 +20,7 @@ public class MyCoolQueen extends Piece {
     public MyCoolQueen(boolean isWhite, String img_file){
         super(isWhite, img_file); 
     }
+
     
     //precondition: a piece is clicked and it's not null
     //postcondition: return an arraylist of every square that is "controlled" by this piece. A square is controlled
@@ -119,6 +122,12 @@ public class MyCoolQueen extends Piece {
         return moves;
     }
     
+    public String toString(){
+        if (color)
+            return "White Cool Queen";
+        else
+            return "Black Cool Queen";
+    }
 
     //TO BE IMPLEMENTED!
     //implement the move function here

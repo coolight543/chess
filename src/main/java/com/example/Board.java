@@ -46,7 +46,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private boolean whiteTurn;
 
     //if the player is currently dragging a piece this variable contains it.
-    private MyCoolQueen currPiece;
+    private Piece currPiece;
     private Square fromMoveSquare;
     
     //used to keep track of the x/y coordinates of the mouse.
@@ -124,11 +124,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         return whiteTurn;
     }
 
-    public void setCurrPiece(MyCoolQueen p) {
+    public void setCurrPiece(Piece p) {
         this.currPiece = p;
     }
 
-    public MyCoolQueen getCurrPiece() {
+    public Piece getCurrPiece() {
         return this.currPiece;
     }
 
@@ -207,18 +207,28 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
         
         //using currPiece
-        if (fromMoveSquare != null)
+        if (fromMoveSquare != null && currPiece != null)
         {
             if (currPiece != null && currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare) && currPiece.getColor() == whiteTurn)
             {
-                
+                Piece captured = endSquare.getOccupyingPiece();
+                endSquare.put(currPiece);
+                fromMoveSquare.removePiece();
                 if(endSquare.removePiece()!=null)
                 {
                     currPiece.getPiecesTaken();
                 }
                 endSquare.put(currPiece);
                 fromMoveSquare.removePiece();
-                whiteTurn = !whiteTurn;
+                if(kingIsInCheck(whiteTurn))
+                {
+                    fromMoveSquare.put(currPiece);
+                    endSquare.put(captured);
+                }
+                else
+                {whiteTurn = !whiteTurn;}
+                if(currPiece instanceof MyCoolQueen)
+            
             }
         }
         

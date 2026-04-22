@@ -188,6 +188,41 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         repaint();
     }
 
+
+
+
+     public boolean kingIsInCheck( boolean color)
+    {
+        /*  1. Find all pieces of the other color - ArrayList <Piece> 
+         2. Loop through all the possible attacks and moves
+         keyword: instanceof - to find out if variable stores the target
+         [variable] instanceof [class] 
+        */
+       // 1st step
+        ArrayList <Square> opponentsLocations = new ArrayList<>();
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                Square colorSquares = board[i][j];
+                if (colorSquares.isOccupied())
+                {
+                    if (colorSquares.getOccupyingPiece().getColor()!= color)
+                    {
+                        opponentsLocations.add(colorSquares);
+                    }
+                }
+            }
+        }
+        //2nd step
+        //loop through all opponentslocations and see if their 
+        // controlled squares has the king
+        for (int i = 0; i < opponentsLocations.size(); i++)
+        {
+            opponentsLocations.getControlledSquares(this, fromMoveSquare);
+            if (opponentsLocations)
+        }
+    }
     //TO BE IMPLEMENTED!
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
@@ -214,9 +249,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 Piece captured = endSquare.getOccupyingPiece();
                 endSquare.put(currPiece);
                 fromMoveSquare.removePiece();
-                if(endSquare.removePiece()!=null)
+                if(endSquare.removePiece()!=null && currPiece instanceof MyCoolQueen)
                 {
-                    currPiece.getPiecesTaken();
+                    ((MyCoolQueen)currPiece).getPiecesTaken();
                 }
                 endSquare.put(currPiece);
                 fromMoveSquare.removePiece();
@@ -228,6 +263,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 else
                 {whiteTurn = !whiteTurn;}
                 if(currPiece instanceof MyCoolQueen)
+                {}
             
             }
         }

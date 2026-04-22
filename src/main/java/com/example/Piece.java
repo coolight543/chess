@@ -39,33 +39,7 @@ public class Piece {
         g.drawImage(this.img, x, y, null);
     }
 
-    public boolean kingIsInCheck(boolean turns)
-    {
-        /*  1. Find all pieces of the other color - ArrayList <Piece> 
-         2. Loop through all the possible attacks and moves
-         keyword: instanceof - to find out if variable stores the target
-         [variable] instanceof [class] 
-        */
-       // 1st step
-        ArrayList <Square> opponentsLocations = new ArrayList<>();
-        for (int i = 0; i < 8; i++)
-        {
-            Square colorSquares = b.getSquareArray()[start.getRow()][start.getCol()];
-            for (int j = 0; j < 8; j++)
-            {
-                if (colorSquares.isOccupied())
-                {
-                    if (this.color != colorSquares.getOccupyingPiece().getColor())
-                    {
-                        opponentsLocations.add(colorSquares);
-                    }
-                }
-            }
-        }
-        return true; 
-        //2nd step
-        if ()
-    }
+   
 
     // to be overriden in each subclass
     public ArrayList<Square> getLegalMoves(Board b, Square currentSquare) {

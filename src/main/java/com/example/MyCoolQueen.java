@@ -25,13 +25,13 @@ public class MyCoolQueen extends Piece {
     //precondition: a piece is clicked and it's not null
     //postcondition: return an arraylist of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
-
-    public ArrayList<Square> getControlledSquares(Board b, Square start) {
+    @Override
+    public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
         ArrayList<Square> moves = new ArrayList<>();
         //check right
         for (int i = 1; i+start.getCol() <= 7; i++)
         {
-            Square rights = b.getSquareArray()[start.getRow()][start.getCol()+i];
+            Square rights = board[start.getRow()][start.getCol()+i];
             if (rights.isOccupied())
             {
                     moves.add(rights);
@@ -43,7 +43,7 @@ public class MyCoolQueen extends Piece {
         //check left
         for (int i = 1; start.getCol()-i >= 0 ; i++)
         {
-            Square left = b.getSquareArray()[start.getRow()][start.getCol()-i];
+            Square left =board[start.getRow()][start.getCol()-i];
             if (left.isOccupied())
             {
                     moves.add(left);
@@ -54,7 +54,7 @@ public class MyCoolQueen extends Piece {
         //check down
         for (int i = 1; start.getRow()+i <= 7; i++)
         {
-            Square down = b.getSquareArray()[start.getRow()+i][start.getCol()];
+            Square down =board[start.getRow()+i][start.getCol()];
             if (down.isOccupied())
             {
                     moves.add(down);
@@ -65,7 +65,7 @@ public class MyCoolQueen extends Piece {
         //check up
         for (int i = 1; start.getRow()-i >= 0; i++)
         {
-            Square up = b.getSquareArray()[start.getRow()-i][start.getCol()];
+            Square up = board[start.getRow()-i][start.getCol()];
             if (up.isOccupied())
             {
                 moves.add(up);
@@ -76,7 +76,7 @@ public class MyCoolQueen extends Piece {
         //check upright
         for (int i = 1; start.getRow()-i >= 0 && start.getCol()+i <=7; i++)
         {
-            Square upright = b.getSquareArray()[start.getRow()-i][start.getCol()+i];
+            Square upright =board[start.getRow()-i][start.getCol()+i];
             if (upright.isOccupied())
             {
                 moves.add(upright);
@@ -87,7 +87,7 @@ public class MyCoolQueen extends Piece {
         //check upleft
         for (int i = 1; start.getRow()-i >= 0 && start.getCol()-i >= 0; i++)
         {
-            Square upleft = b.getSquareArray()[start.getRow()-i][start.getCol()-i];
+            Square upleft = board[start.getRow()-i][start.getCol()-i];
             if (upleft.isOccupied())
             {
                 moves.add(upleft);
@@ -98,7 +98,7 @@ public class MyCoolQueen extends Piece {
         //check downleft
         for (int i = 1; start.getRow()+i <= 7 && start.getCol()-i >= 0; i++)
         {
-            Square downleft = b.getSquareArray()[start.getRow()+i][start.getCol()-i];
+            Square downleft =board[start.getRow()+i][start.getCol()-i];
             if (downleft.isOccupied())
             {
                 moves.add(downleft);
@@ -109,7 +109,7 @@ public class MyCoolQueen extends Piece {
         //check downright
         for (int i = 1; start.getRow()+i <= 7 && start.getCol()+i <=7; i++)
         {
-            Square downright = b.getSquareArray()[start.getRow()+i][start.getCol()+i];
+            Square downright =board[start.getRow()+i][start.getCol()+i];
             if (downright.isOccupied())
             {
                 moves.add(downright);
@@ -118,7 +118,7 @@ public class MyCoolQueen extends Piece {
             moves.add(downright);
         }
 
-        
+       
         return moves;
     }
     

@@ -22,7 +22,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class Board extends JPanel implements MouseListener, MouseMotionListener {
 	// Resource location constants for piece images
-    private static final String path = "/src/main/java/com/example/Pictures/";
+    private static final String path = "/workspaces/chess2026/src/main/java/com/example/Pictures/";
     private static final String RESOURCES_WBISHOP_PNG = path+"wbishop.png";
 	private static final String RESOURCES_BBISHOP_PNG = path+"bbishop.png";
 	private static final String RESOURCES_WKNIGHT_PNG = path+"wknight.png";
@@ -110,8 +110,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     	
      board[7][3].put(new MyCoolQueen(true, RESOURCES_WQUEEN_PNG));
      board[0][4].put(new MyCoolQueen(false, RESOURCES_BQUEEN_PNG));
-     board[6][6].put(new MyCoolQueen(true, RESOURCES_WPAWN_PNG));
+     board[5][3].put(new MyCoolQueen(true, RESOURCES_WPAWN_PNG));
      board[1][5].put(new MyCoolQueen(false, RESOURCES_BPAWN_PNG));
+     board[5][4].put(new King(true, RESOURCES_WKING_PNG));
+     board[6][7].put(new King(false, RESOURCES_BKING_PNG));
         
 
     }
@@ -219,9 +221,17 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         // controlled squares has the king
         for (int i = 0; i < opponentsLocations.size(); i++)
         {
-            opponentsLocations.getControlledSquares(this, fromMoveSquare);
-            if (opponentsLocations)
+           
+            for (Square controlled :opponentsLocations.get(i).getOccupyingPiece().getControlledSquares(board, opponentsLocations.get(i)))
+            {
+                //ask those controlled squares do you have a king of color "color"?
+                if (controlled.getOccupyingPiece()!= null && controlled.getOccupyingPiece().getColor() != color && controlled.getOccupyingPiece() instanceof King)
+                {
+                    return true;
+                }
+            }
         }
+        return false;
     }
     //TO BE IMPLEMENTED!
     //should move the piece to the desired location only if this is a legal move.

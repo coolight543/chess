@@ -193,46 +193,61 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
 
 
-     public boolean kingIsInCheck( boolean color)
+     public boolean kingIsInCheck(boolean color)
     {
+        Square kingSquare; 
+        int rows, cols; 
         /*  1. Find all pieces of the other color - ArrayList <Piece> 
          2. Loop through all the possible attacks and moves
          keyword: instanceof - to find out if variable stores the target
          [variable] instanceof [class] 
         */
        // 1st step
-        ArrayList <Square> opponentsLocations = new ArrayList<>();
+
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
+                
                 Square colorSquares = board[i][j];
+                
                 if (colorSquares.isOccupied())
                 {
+                   
                     if (colorSquares.getOccupyingPiece().getColor()!= color)
                     {
-                        opponentsLocations.add(colorSquares);
+                        // after the move, check if the opponent control square have the king piece
+
+                       for (Square controlledSquare: colorSquares.getOccupyingPiece().getControlledSquares(board, colorSquares))
+                        {
+                            //you need to ask each controlledSquare do you have a piece? is that piece a King? is that King the right color?
+                            if (controlledSquare.getOccupyingPiece() instanceof King)
+                            {
+                                return true;
+                            }
+                        }
+                        
                     }
-                }
-            }
-        }
-        //2nd step
-        //loop through all opponentslocations and see if their 
-        // controlled squares has the king
-        for (int i = 0; i < opponentsLocations.size(); i++)
-        {
-           
-            for (Square controlled :opponentsLocations.get(i).getOccupyingPiece().getControlledSquares(board, opponentsLocations.get(i)))
-            {
-                //ask those controlled squares do you have a king of color "color"?
-                if (controlled.getOccupyingPiece()!= null && controlled.getOccupyingPiece().getColor() != color && controlled.getOccupyingPiece() instanceof King)
-                {
-                    return true;
                 }
             }
         }
         return false;
     }
+
+        // if king is  now in check
+        //is this oob, legalmoves, 
+        //if moved then is  in dangeer, than move back
+        //2nd step
+        //loop through all opponentslocations and see if their 
+        // controlled squares has the king
+
+    // find king location
+    // is in 
+
+
+
+
+      
     //TO BE IMPLEMENTED!
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
@@ -272,9 +287,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 }
                 else
                 {whiteTurn = !whiteTurn;}
-                if(currPiece instanceof MyCoolQueen)
-                {}
-            
+                
             }
         }
         
